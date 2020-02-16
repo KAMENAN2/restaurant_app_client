@@ -1,0 +1,186 @@
+<app-navbar></app-navbar>
+<div class="wrapper">
+    <div class="page-header header-filter">
+        <div class="squares square1"></div>
+        <div class="squares square2"></div>
+        <div class="squares square3"></div>
+        <div class="squares square4"></div>
+        <div class="squares square5">
+            <img
+                    alt="Circle image"
+                    class="img-fluid shadow"
+                    src="assets/img/james.jpg"
+
+            /></div>
+        <div class="squares square6"></div>
+        <div class="squares square7"></div>
+        <div class="container">
+            <div class="content-center brand">
+                <h1 class="h1-seo">Restaurant Service</h1>
+                <h3>
+                    Laissez notre application de retau service vous guider dans le choix des meilleurs restaurants
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+
+        <div class="section">
+            <div class="container">
+                <hr class="" style="width: 100%;background-color: #ff565e">
+                <div class="title"><h3>Restaurant à la une </h3></div>
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-5 mb-5 mb-lg-0">
+                        <h1 class="text-white font-weight-light">Bootstrap carousel</h1>
+                        <p class="text-white mt-4">
+                            Black Design comes with three pre-built pages to help you get
+                            started faster. You can change the text and images and you're
+                            good to go.
+                        </p>
+                        <a class="btn btn-warning mt-4" href="#">
+                            Aller à liste des restaurants
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <carousel [showIndicators]="false">
+                            <slide>
+                                <img
+                                        alt="First slide"
+                                        class="d-block w-100"
+                                        src="assets/img/denys.jpg"
+                                />
+                            </slide>
+                            <slide>
+                                <img
+                                        alt="Second slide"
+                                        class="d-block w-100"
+                                        src="assets/img/fabien-bazanegue.jpg"
+                                />
+                            </slide>
+                            <slide>
+                                <img
+                                        alt="Third slide"
+                                        class="d-block w-100"
+                                        src="assets/img/mark-finn.jpg"
+                                />
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="section section-lg section-coins" style="margin-bottom: 0px;">
+            <img class="path" src="assets/img/path3.png" />
+
+            <div class="container">
+                <hr class="" style="width: 100%;background-color: #ff565e">
+                <div class="row">
+                    <div class="col-md-4">
+                        <hr class="line-info" />
+
+                        <h1>
+                            Restaurants
+                            <span class="text-info">proches de votre position </span>
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"  *ngFor="let restaurant of restaurants,let i=index">
+                        <div class="card card-coin card-plain">
+                            <div class="card-header">
+                                <img class="img-fluid rounded-circle shadow" src="assets/img1/r{{i + 1}}.png" />
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h4 class="text-uppercase">Cuisine {{restaurant.cuisine}}</h4>
+                                        <span> District : {{restaurant.borough}} </span> <br>
+                                        <span> Rue : {{restaurant.address.street}} </span>
+                                        <hr class="line-primary" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Nom : {{restaurant.name}}</li>
+                                        <li class="list-group-item">Grades {{restaurant.grades[0].grade}} depuis {{restaurant.grades[0].date | date : "dd/MM/yyyy"}} </li>
+                                        <li class="list-group-item">Ouvert 24/7</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button class="btn btn-primary btn-simple" (click)="onGetDetailRestaurant(restaurant,i+1)">Plus de details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section section-lg section-coins"   >
+            <div class="container">
+                <hr class="" style="width: 100%;background-color: #ff565e">
+                <div class="title"><h3>Liste des restaurants à la une </h3></div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col form-inline">
+
+                            <div class="form-group" >
+                                <input class="form-control" placeholder="search by name" type="text" name="search"  [(ngModel)]="dataForSearch" />
+                            </div>
+                            <button class="btn btn-primary btn-simple" style="margin-left: 10px" (click)="onFindByName()">search</button>
+                            <div class="spinner-border text-danger" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table tablesorter" id="plain-table">
+                            <thead class="text-danger">
+                            <tr >
+                                <th class="header">Name</th>
+                                <th class="header">Cuisine</th>
+                                <th class="header">Borough</th>
+                                <th class="header">Street</th>
+                                <th class="header">Last Grade</th>
+                                <th class="header">Note</th>
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let restaurant of allRestaurant">
+                                <td>{{restaurant.name}}</td>
+                                <td>{{restaurant.cuisine}}</td>
+                                <td>{{restaurant.borough}}</td>
+                                <td>{{restaurant.address.street}}</td>
+                                <td>{{restaurant.grades[0].grade }}  {{restaurant.grades[0].date | date :"yyyy" }}</td>
+                                <td [innerHTML]="addStartGold(restaurant.grades[0].score )">
+
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <pagination
+                                class="pagination-danger"
+                                [boundaryLinks]="true"
+                                [(ngModel)]="pagination1"
+                                [totalItems]="totalItem"
+                                [maxSize]="10"
+                                (click)="paginate()"
+                        >
+                        </pagination>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </div>
+    <app-footer></app-footer>
+</div>
